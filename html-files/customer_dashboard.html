@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Customer Dashboard</h1>
+<p>Logged in as: {{ session.identifier }}</p>
+
+<ul>
+    <li><a href="{{ url_for('view_customer_flights') }}">View My Flights</a></li>
+    <li><a href="{{ url_for('search_flights') }}">Search and Purchase Flights</a></li>
+    <li><a href="{{ url_for('customer_spending') }}">Review Spending</a></li>
+</ul>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Update Flight Status</h1>
+
+<p>
+    Flight: <strong>{{ flight.flight_num }}</strong><br>
+    Route: {{ flight.departure_airport }} → {{ flight.arrival_airport }}<br>
+    Current Status: <strong>{{ flight.flight_status }}</strong>
+</p>
+
+<form method="POST">
+    <label>New Status:</label><br>
+    <select name="flight_status" required>
+        <option value="upcoming">upcoming</option>
+        <option value="on-time">on-time</option>
+        <option value="in-progress">in-progress</option>
+        <option value="delayed">delayed</option>
+    </select><br><br>
+
+    <button type="submit">Update Status</button>
+</form>
+
+<p><a href="{{ url_for('staff_dashboard') }}">Back to Dashboard</a></p>
+{% endblock %}

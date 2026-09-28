@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Authorize Booking Agent</h1>
+
+<p>Authorize an agent for airline: <strong>{{ staff.airline_name }}</strong></p>
+
+<form method="POST">
+    <label>Booking Agent Email:</label><br>
+    <input type="email" name="agent_email" required><br><br>
+
+    <button type="submit">Authorize Agent</button>
+</form>
+
+<p><a href="{{ url_for('staff_dashboard') }}">Back to Dashboard</a></p>
+{% endblock %}

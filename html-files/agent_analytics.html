@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Agent Analytics</h1>
+
+<p>Total Commission (30 days): ${{ stats.total_commission }}</p>
+<p>Avg Commission (30 days): ${{ stats.avg_commission }}</p>
+<p>Tickets Sold (30 days): {{ stats.tickets }}</p>
+
+<h2>Top Customers (Tickets) in Last 6 Months</h2>
+<canvas id="chart1"></canvas>
+
+<h2>Top Customers (Commission) in Last Year</h2>
+<canvas id="chart2"></canvas>
+
+<script>
+function createChart(canvasId, labels, values) {
+    const canvas = document.getElementById(canvasId);
+    const ctx = canvas.getContext("2d");
+
+    let hovered = null;
+
+    function draw(progress=1) {
+        canvas.width = 700;
+        canvas.height = 350;
+
+        const max = Math.max(...values, 1);
+
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+
+        values.forEach((v,i)=>{
+            const x = 80 + i*120;
+            const height = (v/max)*200*progress;
+            const y = 280 - height;
+
+            ctx.fillStyle = hovered===i ? "#355fd6" : "#4b79ff";
+            ctx.fillRect(x,y,60,height);
+
+            ctx.fillStyle="black";
+            ctx.fillText(labels[i],x,310);
+            ctx.fillText(v.toFixed(2),x,y-5);
+        });
+    }
+
+    function animate(ts){
+        let start = animate.start || (animate.start=ts);
+        let p = Math.min((ts-start)/800,1);
+        let ease = 1-Math.pow(1-p,3);
+        draw(ease);
+        if(p<1) requestAnimationFrame(animate);
+    }
+
+    canvas.addEventListener("mousemove",(e)=>{
+        const x=e.offsetX;
+        hovered=Math.floor((x-80)/120);
+        draw(1);
+    });
+
+    requestAnimationFrame(animate);
+}
+
+createChart("chart1", {{ top_ticket_labels|tojson }}, {{ top_ticket_values|tojson }});
+createChart("chart2", {{ top_comm_labels|tojson }}, {{ top_comm_values|tojson }});
+</script>
+
+{% endblock %}
