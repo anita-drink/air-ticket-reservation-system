@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Airline Analytics</h1>
+<p>Airline: <strong>{{ staff.airline_name }}</strong></p>
+
+<hr>
+
+<h2>Top Booking Agents</h2>
+
+<h3>This Month: By Tickets</h3>
+{% set agents = top_agents_month_tickets %}
+{% include "staff_agents_table_simple.html" %}
+
+<h3>This Year: By Tickets</h3>
+{% set agents = top_agents_year_tickets %}
+{% include "staff_agents_table_simple.html" %}
+
+<h3>This Month: By Commission</h3>
+{% set agents = top_agents_month_commission %}
+{% include "staff_agents_table_simple.html" %}
+
+<h3>This Year: By Commission</h3>
+{% set agents = top_agents_year_commission %}
+{% include "staff_agents_table_simple.html" %}
+
+<hr>
+
+<h2>Most Frequent Customer in the Last Year</h2>
+{% if frequent_customer %}
+<p>
+    {{ frequent_customer.name }} —
+    {{ frequent_customer.customer_email }} —
+    {{ frequent_customer.tickets }} tickets
+</p>
+{% else %}
+<p>No customer ticket data in the last year.</p>
+{% endif %}
+
+<hr>
+
+<h2>Tickets Sold Per Month</h2>
+{% if tickets_per_month %}
+<table border="1" cellpadding="6">
+    <tr>
+        <th>Month</th>
+        <th>Tickets Sold</th>
+    </tr>
+    {% for row in tickets_per_month %}
+    <tr>
+        <td>{{ row.month_key }}</td>
+        <td>{{ row.tickets }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>No ticket sales found in the last 12 months.</p>
+{% endif %}
+
+<hr>
+
+<h2>Delay vs. On-Time Statistics</h2>
+<p>
+    Delayed: {{ delay_stats.delayed_count or 0 }}<br>
+    On-Time: {{ delay_stats.on_time_count or 0 }}<br>
+    Total Flights: {{ delay_stats.total_flights or 0 }}
+</p>
+
+<hr>
+
+<h2>Top Destinations: Last 3 Months</h2>
+{% if top_destinations_3_months %}
+<table border="1" cellpadding="6">
+    <tr>
+        <th>Airport</th>
+        <th>City</th>
+        <th>Tickets</th>
+    </tr>
+    {% for d in top_destinations_3_months %}
+    <tr>
+        <td>{{ d.arrival_airport }}</td>
+        <td>{{ d.city }}</td>
+        <td>{{ d.ticket_count }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>No destination data for the last 3 months.</p>
+{% endif %}
+
+<h2>Top Destinations: Last Year</h2>
+{% if top_destinations_year %}
+<table border="1" cellpadding="6">
+    <tr>
+        <th>Airport</th>
+        <th>City</th>
+        <th>Tickets</th>
+    </tr>
+    {% for d in top_destinations_year %}
+    <tr>
+        <td>{{ d.arrival_airport }}</td>
+        <td>{{ d.city }}</td>
+        <td>{{ d.ticket_count }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>No destination data for the last year.</p>
+{% endif %}
+
+<p><a href="{{ url_for('staff_dashboard') }}">Back to Dashboard</a></p>
+{% endblock %}
