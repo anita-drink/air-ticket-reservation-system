@@ -1,0 +1,5 @@
+* list of python packages that this project needs/uses
+
+flask
+pymysql
+werkzeug
