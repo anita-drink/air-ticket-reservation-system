@@ -1,8 +1,9 @@
 # air-ticket-reservation-system
-Full stack web project
-**Tools/Languages:** Python, SQL, HTML, Flask, phpMyAdmin
+Full stack secure and usable web application that implements a plane ticket reservation complete with authetication and user sessions, server-side validation of all inputs, and supports use cases for public users, customers, booking agents, and airline staff.
 
-code-documentation -> code manifest.pdf for detailed explanation of all code files
+
+**Tools/Languages:** Python, SQL, HTML, Flask, phpMyAdmin
+- See code manifest.pdf under code-documentation for detailed explanation of all code files
 
 # Security Implementations
 * **Prevents SQL injections:** `cursor.execute(sql, (identifier,))` uses %s placeholders and passes user input separately as a tuple. PyMySQL sends the values safely as parameters.
